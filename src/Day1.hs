@@ -1,4 +1,4 @@
-module Lib
+module Day1
     ( someFunc
     ) where
 
