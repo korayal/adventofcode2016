@@ -16,21 +16,23 @@ import Data.Attoparsec.Text (Parser)
 import Data.Text (Text)
 import qualified Data.Text.IO as I
 
+import Lib
+
 pos :: Location
 pos = Location North 0 0
 
-solveFirst :: IO ()
-solveFirst = do
-  l <- I.getLine
+solveFirst :: String -> IO ()
+solveFirst f = do
+  l <- I.readFile f
   dse <- pure $ A.parseOnly directions l
   case dse of
     Left _ -> putStrLn "Invalid Input"
     Right ds -> let (Location f x y) = applyDirections pos ds
                in putStrLn $ show $ (abs x) + (abs y)
 
-solveSecond :: IO ()
-solveSecond = do
-  l <- I.getLine
+solveSecond :: String -> IO ()
+solveSecond f = do
+  l <- I.readFile f
   dse <- pure $ A.parseOnly directions l
   case dse of
     Left _ -> putStrLn "Invalid Input"
@@ -55,14 +57,6 @@ directions = do
 data Facing = North | East | South | West deriving (Eq, Show, Enum, Bounded)
 
 data Location = Location Facing Int Int deriving (Eq, Show)
-
-prev :: (Eq a, Enum a, Bounded a) => a -> a
-prev e | e == minBound = maxBound
-       | otherwise = pred e
-
-next :: (Eq a, Enum a, Bounded a) => a -> a
-next e | e == maxBound = minBound
-       | otherwise = succ e
 
 moveDirection :: Location -> Direction -> Location
 moveDirection (Location f x y) d =

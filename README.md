@@ -4,7 +4,7 @@ I don't plan on keeping up with the [site](http://www.adventofcode.com) since I'
 
 To solve your stuff, run:
 
-`stack exec aoc2016 -- questionLabel`
+`stack exec aoc2016 -- questionLabel input_file`
 
 a `questionLabel` is `numerical Day` combined with `question id as a letter`, as in:
 Day 1 - Question 2 : `1b`
