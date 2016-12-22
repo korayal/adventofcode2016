@@ -65,14 +65,10 @@ kpDirection = left <|> right <|> up <|> down
         down = A.char 'D' *> pure KPDown
 
 kpDirections :: Parser [KPDirection]
-kpDirections = do
-  ds <- A.many1 kpDirection
-  return ds
+kpDirections = A.many1 kpDirection
 
 kpLines :: Parser [[KPDirection]]
-kpLines = do
-  ds <- kpDirections `AC.sepBy` A.endOfLine
-  return ds
+kpLines = kpDirections `AC.sepBy` A.endOfLine
 
 moveDirection :: KeyPad -> KPPosition -> KPDirection -> KPPosition
 moveDirection kp (p@KPPosition {..}) d = case d of

@@ -46,9 +46,7 @@ direction = (left <*> A.decimal) <|>
         right = A.char 'R' *> pure DirectionRight
 
 directions :: Parser [Direction]
-directions = do
-  ds <- direction `AC.sepBy` (A.string ", ")
-  return ds
+directions = direction `AC.sepBy` (A.string ", ")
 
 data Facing = North | East | South | West deriving (Eq, Show, Enum, Bounded)
 
