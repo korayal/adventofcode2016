@@ -4,19 +4,15 @@ module Day1
     , solveSecond
     ) where
 
-import Control.Applicative ((<*>),
-                            (*>),
-                            (<$>),
-                            (<|>),
-                            pure)
+import           Control.Applicative        (pure, (*>), (<$>), (<*>), (<|>))
 
-import qualified Data.Attoparsec.Text as A
 import qualified Data.Attoparsec.Combinator as AC
-import Data.Attoparsec.Text (Parser)
-import Data.Text (Text)
-import qualified Data.Text.IO as I
+import           Data.Attoparsec.Text       (Parser)
+import qualified Data.Attoparsec.Text       as A
+import           Data.Text                  (Text)
+import qualified Data.Text.IO               as I
 
-import Lib
+import           Lib
 
 pos :: Location
 pos = Location North 0 0
@@ -89,5 +85,5 @@ repeatedLocation [] = Nothing
 repeatedLocation ((Location _ xx yy):xs) = repeatedLocation' [(xx, yy)] xs
   where repeatedLocation' old [] = Nothing
         repeatedLocation' old (x@(Location _ xx2 yy2):xs) = if elem (xx2, yy2) old
-                                       then Just x
-                                       else repeatedLocation' ((xx2, yy2):old) xs
+                                                            then Just x
+                                                            else repeatedLocation' ((xx2, yy2):old) xs

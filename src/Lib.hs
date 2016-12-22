@@ -1,7 +1,7 @@
-module Lib ( prev
-           , next
-           ) where
-
+module Lib
+  ( prev
+  , next
+  ) where
 prev :: (Eq a, Enum a, Bounded a) => a -> a
 prev e | e == minBound = maxBound
        | otherwise = pred e

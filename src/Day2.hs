@@ -1,20 +1,17 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE RecordWildCards   #-}
 module Day2
     ( solveFirst
     , solveSecond
     ) where
 
-import Control.Applicative ((<*>),
-                            (*>), (<$>),
-                            (<|>),
-                            pure)
-import qualified Data.Attoparsec.Text as A
+import           Control.Applicative        (pure, (*>), (<$>), (<*>), (<|>))
 import qualified Data.Attoparsec.Combinator as AC
-import Data.Attoparsec.Text (Parser)
-import Data.Text (Text, snoc)
-import qualified Data.Text.IO as I
-import Lib
+import           Data.Attoparsec.Text       (Parser)
+import qualified Data.Attoparsec.Text       as A
+import           Data.Text                  (Text, snoc)
+import qualified Data.Text.IO               as I
+import           Lib
 
 solveFirst :: String -> IO ()
 solveFirst f = do
@@ -79,10 +76,18 @@ kpLines = do
 
 moveDirection :: KeyPad -> KPPosition -> KPDirection -> KPPosition
 moveDirection kp (p@KPPosition {..}) d = case d of
-  KPLeft  -> if (xPosition /= 0 && ((kp !! yPosition) !! (xPosition - 1)) /= ' ') then KPPosition (xPosition - 1) yPosition else p
-  KPRight -> if (xPosition /= (length kp - 1) && ((kp !! yPosition) !! (xPosition + 1)) /= ' ') then KPPosition (xPosition + 1) yPosition else p
-  KPUp    -> if (yPosition /= 0 && ((kp !! (yPosition - 1)) !! (xPosition)) /= ' ') then KPPosition xPosition (yPosition - 1) else p
-  KPDown  -> if (yPosition /= (length kp - 1) && ((kp !! (yPosition + 1)) !! xPosition) /= ' ') then KPPosition xPosition (yPosition + 1) else p
+  KPLeft  -> if (xPosition /= 0 && ((kp !! yPosition) !! (xPosition - 1)) /= ' ')
+            then KPPosition (xPosition - 1) yPosition
+            else p
+  KPRight -> if (xPosition /= (length kp - 1) && ((kp !! yPosition) !! (xPosition + 1)) /= ' ')
+            then KPPosition (xPosition + 1) yPosition
+            else p
+  KPUp    -> if (yPosition /= 0 && ((kp !! (yPosition - 1)) !! (xPosition)) /= ' ')
+            then KPPosition xPosition (yPosition - 1)
+            else p
+  KPDown  -> if (yPosition /= (length kp - 1) && ((kp !! (yPosition + 1)) !! xPosition) /= ' ')
+            then KPPosition xPosition (yPosition + 1)
+            else p
 
 moveRow :: KeyPad -> KPPosition -> [KPDirection] -> (Char, KPPosition)
 moveRow kp p dl = let finalPosition = foldl (moveDirection kp) p dl
@@ -92,7 +97,6 @@ moveRow kp p dl = let finalPosition = foldl (moveDirection kp) p dl
 -- TODO add a helper function to extract stuff
 moveInput :: KeyPad -> KPPosition -> [[KPDirection]] -> Text
 moveInput kp p dll = let go :: KeyPad -> KPPosition -> [KPDirection] -> Text -> (Text, KPPosition)
-                         go kp' pos' d' acc = (snoc acc c, pos)
-                           where (c, pos) = moveRow kp pos' d'
+                         go kp' pos' d' acc = (snoc acc c, pos) where (c, pos) = moveRow kp pos' d'
                          finalDigits = foldl (\(acc, pos) d -> go kp pos d acc) ("", p) dll
                      in fst finalDigits
